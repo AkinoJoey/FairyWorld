@@ -1,0 +1,24 @@
+
+FairyWorld
+・FairyWorldという遊園地を作成する
+・FairyWorldではミニチュアハウスを作ったり、おもちゃを作ったり、一緒に遊べるペットを貸し出したりなどの活動を行っている
+
+Factory Method(2)の内容
+・ペット体験を案内するアシスタントロボット（PlayfulPetAssistant）を作成する
+・PlayfulPetAssistant は、ペットを貸し出すロボットで、公園内で人間とペットを案内する
+・ロボットには、人間とペットのツアーがパッケージ化されている
+・ツアーの 1 つとして、人間とペットが挨拶をして、公園内を歩き、1 つのランダムなアクティビティを行う「all-rounder pack」がデフォルトとして設定されている
+・全く同じツアーで最後に 3 つのランダムなアクティビティを行う「deluxe rounder pack」もある
+・PlayfulPetAssistant には、createPlayfulPet という、ペットを作成するための Factory Method が用意されている
+・PlayfulPetAssistant は抽象クラスに設定する
+・デフォルトでは、抽象メソッドである createPlayfulPet 以外のメソッドは全て実装されている
+・PlayfulPetAssistant のサブクラスは、この createPlayfulPet Factory Methodを実装し、特定のペットを作成する必要がある
+・PlayfulPetAssistant は、ロボットが誘導する人間（currentPerson）、ペットのレンタル時間（double currentRentTime）、ガイドの一連の活動を文字列として含む
+
+PlayfulPetAssistantが持つメソッド
+String[] getActivities: // ロボットがガイダンスをサポートする活動の配列を返します。
+void setPerson(Person p): // ロボットが案内するcurrentPersonを設定します。
+void setHours(int hours): // ペットをレンタルする時間を設定します。
+double getHours(): // ペットをレンタルする時間を返します。
+void reset(): // 全ての状態をデフォルトにクリアしてロボットをリセットします。
+PlayfulPet createPlayfulPet()： // ペットを作成して返します。これはFactory Methodです。
