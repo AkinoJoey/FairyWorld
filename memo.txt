@@ -22,3 +22,7 @@ void setHours(int hours): // ペットをレンタルする時間を設定しま
 double getHours(): // ペットをレンタルする時間を返します。
 void reset(): // 全ての状態をデフォルトにクリアしてロボットをリセットします。
 PlayfulPet createPlayfulPet()： // ペットを作成して返します。これはFactory Methodです。
+
+Factory Method(3)の内容
+・pony、hamster、chicken、goat をサポートするようにコードを拡張する
+
