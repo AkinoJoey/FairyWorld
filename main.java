@@ -256,7 +256,7 @@ class Cat extends Mammal implements PlayfulPet{
             return "The cat took a good nap.";
         }
         else if(this.likesActivity(activity)) return "Meow. The cat really enjoyed the " + activity + " activity.";
-        else if(this.likesActivity(activity)) return "The cat really hated the " + activity + " activity.";
+        else if(this.dislikesActivity(activity)) return "The cat really hated the " + activity + " activity.";
         return "The cat felt indifferent about the " + activity + " activity.";
     };
 }
@@ -432,7 +432,7 @@ class Dog extends Mammal implements PlayfulPet{
             return "The dog took a quick nap.";
         }
         else if(this.likesActivity(activity)) return "Woof Woof. The dog really enjoyed the " + activity + " activity.";
-        else if(this.likesActivity(activity)) return "The dog did not like " + activity + " activity. The dog walked away";
+        else if(this.dislikesActivity(activity)) return "The dog did not like " + activity + " activity. The dog walked away";
         return "The dog felt indifferent about the " + activity + " activity.";
     };
 }
@@ -499,10 +499,263 @@ class Rabbit extends Mammal implements PlayfulPet{
             return "The rabbit took a long nap.";
         }
         else if(this.likesActivity(activity)) return ".... The Rabbit really enjoyed the " + activity + " activity.";
-        else if(this.likesActivity(activity)) return "Squeeeak. The Rabbit did not like " + activity + " activity. The rabbit quickly hopped away";
+        else if(this.dislikesActivity(activity)) return "Squeeeak. The Rabbit did not like " + activity + " activity. The rabbit quickly hopped away";
         return "The rabbit felt indifferent about the " + activity + " activity.";
     };
 }
+
+class Pony extends Mammal implements PlayfulPet{
+    public static final String SPECIES = "Pony";
+    public static final double LIFE_EXPECTANCY = 10950;
+    public static final double Body_TEMPERATURE = 37;
+    
+    private static final double PLAYFUL_HOURLY_COSTS = 50;
+    private static final String[] LIKED_ACTIVITIES = {"eat","nap","chase","drink","jump"};
+    private static final String[] DISLIKED_ACTIVITIES = {"bath","dig"};
+
+    public Pony(double heightM, double weightKg, String biologicalSex){
+        super(Pony.SPECIES, heightM, weightKg, Pony.LIFE_EXPECTANCY, biologicalSex, Pony.LIFE_EXPECTANCY);
+    }
+
+    public String toString(){
+        return super.toString() + " this is a pony";
+    }
+
+    public String getPetName(){
+        return this.species;
+    }
+
+    public String play(){
+        return "This pony is enjoying some playtime, trotting and galloping around with enthusiasm in the field.";
+    }
+
+    public String playWithPerson(Person person){
+        String s = "The pony runs towards " + person.getName();
+        s+= ". After the pony stares at " + person.getName() + ", " + person.getName() + " ride a pony and leisurely walks around the arena.";
+        return s;
+    }
+
+    public String playNoise(){
+        return "Neigh";
+    }
+
+    public double getRentalCosts(){
+        return Pony.PLAYFUL_HOURLY_COSTS;
+    }
+
+    public boolean likesActivity(String activity){
+        return Arrays.asList(Pony.LIKED_ACTIVITIES).contains(activity);
+    };
+
+    public boolean dislikesActivity(String activity){
+        return Arrays.asList(Pony.DISLIKED_ACTIVITIES).contains(activity);
+    };
+
+    public String doActivity(String activity){
+        if(activity == "eat"){
+            this.eat();
+            return "The pony chew on the food bit by bit taking tiny bites.";
+        }
+        else if(activity == "nap"){
+            this.sleep();
+            return "The pony took a quick nap.";
+        }
+        else if(this.likesActivity(activity)) return "The pony really enjoyed the " + activity + " activity.";
+        else if(this.dislikesActivity(activity)) return "The pony did not like " + activity + " activity. The pony quickly walked away";
+        return "The pony felt indifferent about the " + activity + " activity.";
+    };
+}
+
+class Hamster extends Mammal implements PlayfulPet{
+    public static final String SPECIES = "Hamster";
+    public static final double LIFE_EXPECTANCY = 1000;
+    public static final double Body_TEMPERATURE = 37;
+    
+    private static final double PLAYFUL_HOURLY_COSTS = 25;
+    private static final String[] LIKED_ACTIVITIES = {"eat","gnaw","nest","groom","dig"};
+    private static final String[] DISLIKED_ACTIVITIES = {"chase","handle"};
+
+    public Hamster(double heightM, double weightKg, String biologicalSex){
+        super(Hamster.SPECIES, heightM, weightKg, Hamster.LIFE_EXPECTANCY, biologicalSex, Hamster.LIFE_EXPECTANCY);
+    }
+
+    public String toString(){
+        return super.toString() + " this is a hamster";
+    }
+
+    public String getPetName(){
+        return this.species;
+    }
+
+    public String play(){
+        return "This hamster is running through tunnels and spinning on her exercise wheel with delight.";
+    }
+
+    public String playWithPerson(Person person){
+        String s = "The hamster runs towards " + person.getName();
+        s+= ". After the hamster stares at " + person.getName() + ", " + person.getName() + " is playing with the hamster, gently handling it, offering treats, and watching it explore a playpen.";
+        return s;
+    }
+
+    public String playNoise(){
+        return "Squeak";
+    }
+
+    public double getRentalCosts(){
+        return Hamster.PLAYFUL_HOURLY_COSTS;
+    }
+
+    public boolean likesActivity(String activity){
+        return Arrays.asList(Hamster.LIKED_ACTIVITIES).contains(activity);
+    };
+
+    public boolean dislikesActivity(String activity){
+        return Arrays.asList(Hamster.DISLIKED_ACTIVITIES).contains(activity);
+    };
+
+    public String doActivity(String activity){
+        if(activity == "eat"){
+            this.eat();
+            return "The hamster chew on the food bit by bit taking tiny bites.";
+        }
+        else if(activity == "nap"){
+            this.sleep();
+            return "The hamster took a quick nap.";
+        }
+        else if(this.likesActivity(activity)) return "The hamster really enjoyed the " + activity + " activity.";
+        else if(this.dislikesActivity(activity)) return "The hamster did not like " + activity + " activity. The hamster quickly walked away";
+        return "The hamster felt indifferent about the " + activity + " activity.";
+    };
+}
+
+class Chicken extends Mammal implements PlayfulPet {
+    public static final String SPECIES = "Chicken";
+    public static final double LIFE_EXPECTANCY = 1825; 
+    public static final double BODY_TEMPERATURE = 41; 
+
+    private static final double PLAYFUL_HOURLY_COSTS = 30;
+    private static final String[] LIKED_ACTIVITIES = {"peck", "scratch", "dust-bathe", "forage", "flap"};
+    private static final String[] DISLIKED_ACTIVITIES = {"chase"};
+
+    public Chicken(double heightM, double weightKg, String biologicalSex) {
+        super(SPECIES, heightM, weightKg, LIFE_EXPECTANCY, biologicalSex, BODY_TEMPERATURE);
+    }
+
+    public String toString() {
+        return super.toString() + " This is a chicken.";
+    }
+
+    public String getPetName() {
+        return this.species;
+    }
+
+    public String play() {
+        return "This chicken is pecking at the ground and scratching for food.";
+    }
+
+    public String playWithPerson(Person person) {
+        String s = "The chicken pecks around near " + person.getName();
+        s += ". " + person.getName() + " throws some grains, and the chicken happily forages for them.";
+        return s;
+    }
+
+    public String playNoise() {
+        return "Cluck";
+    }
+
+    public double getRentalCosts() {
+        return PLAYFUL_HOURLY_COSTS;
+    }
+
+    public boolean likesActivity(String activity) {
+        return Arrays.asList(LIKED_ACTIVITIES).contains(activity);
+    }
+
+    public boolean dislikesActivity(String activity) {
+        return Arrays.asList(DISLIKED_ACTIVITIES).contains(activity);
+    }
+
+    public String doActivity(String activity) {
+        if (activity == "eat") {
+            this.eat();
+            return "The chicken enjoys pecking at its food.";
+        }
+        else if (activity == "nap") {
+            this.sleep();
+            return "The chicken takes a brief nap in the sun.";
+        }
+        else if (likesActivity(activity)) {
+            return "Cluck. The chicken really enjoys the " + activity + " activity.";
+        }
+        else if (dislikesActivity(activity)) {
+            return "The chicken does not like the " + activity + " activity.";
+        }
+        return "The chicken feels indifferent about the " + activity + " activity.";
+    }
+}
+
+class Goat extends Mammal implements PlayfulPet{
+    public static final String SPECIES = "Goat";
+    public static final double LIFE_EXPECTANCY = 2920;
+    public static final double Body_TEMPERATURE = 38.5;
+    
+    private static final double PLAYFUL_HOURLY_COSTS = 25;
+    private static final String[] LIKED_ACTIVITIES = {"eat","clime","roam","chew"};
+    private static final String[] DISLIKED_ACTIVITIES = {"chase","isolate"};
+
+    public Goat(double heightM, double weightKg, String biologicalSex){
+        super(Goat.SPECIES, heightM, weightKg, Goat.LIFE_EXPECTANCY, biologicalSex, Goat.LIFE_EXPECTANCY);
+    }
+
+    public String toString(){
+        return super.toString() + " this is a goat";
+    }
+
+    public String getPetName(){
+        return this.species;
+    }
+
+    public String play(){
+        return "This goat is frolicking and playing around, leaping and climbing on rocks and logs in the pasture";
+    }
+
+    public String playWithPerson(Person person){
+        String s = "The goat runs towards " + person.getName();
+        s+= ". After the goat stares at " + person.getName() + ", " + person.getName() + " is offering it treats and gently petting its back as they both enjoy their time in the pasture.";
+        return s;
+    }
+
+    public String playNoise(){
+        return "Baa";
+    }
+
+    public double getRentalCosts(){
+        return Goat.PLAYFUL_HOURLY_COSTS;
+    }
+
+    public boolean likesActivity(String activity){
+        return Arrays.asList(Goat.LIKED_ACTIVITIES).contains(activity);
+    };
+
+    public boolean dislikesActivity(String activity){
+        return Arrays.asList(Goat.DISLIKED_ACTIVITIES).contains(activity);
+    };
+
+    public String doActivity(String activity){
+        if(activity == "eat"){
+            this.eat();
+            return "The goat enjoyed eating food.";
+        }
+        else if(activity == "nap"){
+            this.sleep();
+            return "The goat took a good nap.";
+        }
+        else if(this.likesActivity(activity)) return "The goat really enjoyed the " + activity + " activity.";
+        else if(this.dislikesActivity(activity)) return "The goat did not like " + activity + " activity.";
+        return "The goat felt indifferent about the " + activity + " activity.";
+    };
+}
+
 
 // PlayfulDogAssistantとPlayfulRabbitAssistantは、サブクラス化することによって、PlayfulPetAssistantのFactory Methodを実装します。作成されるオブジェクトが異なる点以外は全く同じように動作します。
 class PlayfulDogAssistant extends PlayfulPetAssistant{
@@ -517,6 +770,30 @@ class PlayfulRabbitAssistant extends PlayfulPetAssistant{
     }
 }
 
+class PlayfulPonyAssistant extends PlayfulPetAssistant{
+    public PlayfulPet createPlayfulPet(){
+        return new Pony(RandomWrapper.getRanDouble(0.15,0.4), RandomWrapper.getRanDouble(2.2,10.2), RandomWrapper.ranBoolean() ? "male" : "female");
+    }
+}
+
+class PlayfulHamsterAssistant extends PlayfulPetAssistant{
+    public PlayfulPet createPlayfulPet(){
+        return new Hamster(RandomWrapper.getRanDouble(0.15,0.4), RandomWrapper.getRanDouble(2.2,10.2), RandomWrapper.ranBoolean() ? "male" : "female");
+    }
+}
+
+class PlayfulChickenAssistant extends PlayfulPetAssistant{
+    public PlayfulPet createPlayfulPet(){
+        return new Chicken(RandomWrapper.getRanDouble(0.15,0.4), RandomWrapper.getRanDouble(2.2,10.2), RandomWrapper.ranBoolean() ? "male" : "female");
+    }
+}
+
+class PlayfulGoatAssistant extends PlayfulPetAssistant{
+    public PlayfulPet createPlayfulPet(){
+        return new Goat(RandomWrapper.getRanDouble(0.15,0.4), RandomWrapper.getRanDouble(2.2,10.2), RandomWrapper.ranBoolean() ? "male" : "female");
+    }
+}
+
 class Main{
     public static void main(String[] args){
         FairyWorld fairyWorld = new FairyWorld();
@@ -527,5 +804,9 @@ class Main{
         // その後、jessicaはdogやrabbitとも遊びます。サブクラス化してfactory methodを実装することで、異なるオブジェクトをサポートするようにコードを拡張しました。
         fairyWorld.rentPet(new PlayfulDogAssistant(), jessica);
         fairyWorld.rentPet(new PlayfulRabbitAssistant(), jessica);
+        fairyWorld.rentPet(new PlayfulPonyAssistant(), jessica);
+        fairyWorld.rentPet(new PlayfulHamsterAssistant(), jessica);
+        fairyWorld.rentPet(new PlayfulChickenAssistant(), jessica);
+        fairyWorld.rentPet(new PlayfulGoatAssistant(), jessica);
     }
 }
