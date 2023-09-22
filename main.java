@@ -1,8 +1,12 @@
 import java.util.Random;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.time.LocalDateTime;
 
 class RandomWrapper{
     public static double getRanDouble(double min, double max){
@@ -335,6 +339,39 @@ abstract class PlayfulPetAssistant{
         return rentalCosts;
     }
 
+    public double runAssistanceTour(Person person, String tour, int amount){
+        if(!this.isValidTour(tour)) System.out.println("The tour guide does not accept the " + tour + " tour.");
+        
+        ArrayList<PlayfulPet> playfulPets = this.createPlayfulPets(amount);
+
+        System.out.println("");
+        System.out.println("Booting up... Playful Pet Assistance robot at your service.");
+        System.out.println("Printing information about the Person to service..." + person);
+        System.out.println("");
+
+        double rentalCosts = 0;
+
+        for(int i = 0; i < playfulPets.size(); i++){
+            PlayfulPet playfulPet = playfulPets.get(i);
+
+            System.out.println("Printing information about the Playful Pet - " + playfulPet.getPetName() + " to service..." + playfulPet);
+
+            if(tour == "all-rounder pack" || tour == "deluxe rounder pack"){
+                int count = tour == "all-rounder pack" ? 1 : 3;
+                this.genericRounderTour(count, person, playfulPet);
+            }
+            else{
+                System.out.println("The tour assistant robot for " + playfulPet.getPetName() + " and " + person.getName() + " did nothing.");
+            }
+
+            rentalCosts += playfulPet.getRentalCosts() * this.getCurrentRentTime();
+        }
+
+        this.reset();
+
+        return rentalCosts;
+    }
+
     private void genericRounderTour(int activityCount, Person person, PlayfulPet pet){
         String newLine = System.lineSeparator();
         System.out.println(newLine + "Now starting the generic rounder tour with " + activityCount + " activity(s)");
@@ -352,25 +389,113 @@ abstract class PlayfulPetAssistant{
     }
 
     public abstract PlayfulPet createPlayfulPet();
+
+    public abstract ArrayList<PlayfulPet> createPlayfulPets(int amount);
 }
 
 class PlayfulCatAssistant extends PlayfulPetAssistant{
     public PlayfulPet createPlayfulPet(){
         return new Cat(RandomWrapper.getRanDouble(0.15,0.3), RandomWrapper.getRanDouble(2.0,4.9), RandomWrapper.ranBoolean() ? "male" : "female");
     }
-}
 
-class FairyWorld{
-    public void rentPet(PlayfulPetAssistant assistant, Person person){
-        System.out.println("Thank you for your pet rental!");
-        double costs = assistant.runAssistanceTour(person);
-        System.out.println(costs + " dollars were charged to " + person.getName() + "'s credit card.");
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxx" + System.lineSeparator());
+    public ArrayList<PlayfulPet> createPlayfulPets(int amount){
+        ArrayList<PlayfulPet> petList = new ArrayList<>();
+        
+        for(int i = 0; i < amount; i++){
+            petList.add(new Cat(RandomWrapper.getRanDouble(0.15,0.3), RandomWrapper.getRanDouble(2.0,4.9), RandomWrapper.ranBoolean() ? "male" : "female"));
+        }
+
+        return petList;
     }
 }
 
-// これでシステムが整ったので、あとは作成したい個々のPlayfulPetにクラスを追加して、Factory Methodを含むクライアントシステムをサブクラス化するだけです。今回のケースでは、PlayfulPetAssistantになります。
-// PlayfulPetであるDogと、PlayfulDogAssistant（Factory MethodがDogを生成します）作成してください。
+class Invoice{
+    private String title;
+    private String description;
+    private double total;
+
+    public Invoice(String title, String description, double total){
+        this.title = title;
+        this.description = description;
+        this.total = total;
+    }
+
+    public void printInvoice(){
+        System.out.println("---------------");
+        System.out.println("Title: " + this.getTitle() + "\n");
+        System.out.println("Description: " + this.getDescription() + "\n");
+        System.out.println("Total Cost: " + String.valueOf(this.getTotal()) + "\n");
+        System.out.println("---------------");
+    }
+
+    public String getTitle(){
+        return this.title;
+    }
+
+    public String getDescription(){
+        return this.description;
+    }
+
+    public double getTotal(){
+        return this.total;
+    }
+}
+
+class FairyWorld{
+    private static final int MAX_PET = 5;
+    private HashMap<String, PlayfulPetAssistant> assistantMap = new HashMap<>();
+    private ArrayList<Invoice> invoiceList = new ArrayList<>();
+
+    public FairyWorld(){
+        this.addPlayfulPetAssistant("cat", new PlayfulCatAssistant());
+        this.addPlayfulPetAssistant("rabbit", new PlayfulRabbitAssistant());
+        this.addPlayfulPetAssistant("dog", new PlayfulDogAssistant());
+        this.addPlayfulPetAssistant("pony", new PlayfulPonyAssistant());
+        this.addPlayfulPetAssistant("hamster", new PlayfulHamsterAssistant());
+        this.addPlayfulPetAssistant("chicken", new PlayfulChickenAssistant());
+        this.addPlayfulPetAssistant("goat", new PlayfulGoatAssistant());
+    }
+
+    public void rentPet(String petKey, Person person, int amount, String tour){
+        if(amount > 0 &&  amount < FairyWorld.MAX_PET){
+            System.out.println("ペットをレンタルしてくれてありがとう！");
+            PlayfulPetAssistant assistant = this.assistantMap.get(petKey);
+
+            double costs = assistant.runAssistanceTour(person,tour, amount);
+            Invoice invoice = this.generateInvoice(petKey, person, amount, tour, costs);
+            invoiceList.add(invoice);
+
+            System.out.println(costs + " dollars were charged to " + person.getName() + "'s credit card.");
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxx" + System.lineSeparator());
+
+        }if (amount <= 0) {
+            System.out.println("レンタルしたいペット数は1以上を入力してください。");
+        }if( amount > FairyWorld.MAX_PET){
+            System.out.println("借りられるペット数の上限を超えています。");
+        }
+        
+    }
+
+    public void addPlayfulPetAssistant(String petKey, PlayfulPetAssistant playfulPetAssistant){
+            assistantMap.put(petKey, playfulPetAssistant);
+    }
+
+    public Invoice generateInvoice(String petKey, Person person, int amount, String tour, double costs){
+        String date = LocalDateTime.now().toString();
+        String title = date + " " + person.getName();
+        String description = person.getName() + " が" + petKey  + "を" + amount + "匹レンタル";
+        
+        Invoice invoice = new Invoice(title, description, costs);
+
+        return invoice;
+    }
+
+    public ArrayList<Invoice> getRentedPetsInvoice(){
+        return this.invoiceList;
+    }
+
+}
+
 class Dog extends Mammal implements PlayfulPet{
     public static final String SPECIES = "Dog";
     public static final double LIFE_EXPECTANCY = 4800;
@@ -437,7 +562,6 @@ class Dog extends Mammal implements PlayfulPet{
     };
 }
 
-// PlayfulPetであるRabbitと、PlayfulRabbitAssistant（Factory MethodがRabbitを生成します）作成してください。
 class Rabbit extends Mammal implements PlayfulPet{
     public static final String SPECIES = "Rabbit";
     public static final double LIFE_EXPECTANCY = 3000;
@@ -757,10 +881,19 @@ class Goat extends Mammal implements PlayfulPet{
 }
 
 
-// PlayfulDogAssistantとPlayfulRabbitAssistantは、サブクラス化することによって、PlayfulPetAssistantのFactory Methodを実装します。作成されるオブジェクトが異なる点以外は全く同じように動作します。
 class PlayfulDogAssistant extends PlayfulPetAssistant{
     public PlayfulPet createPlayfulPet(){
         return new Dog(RandomWrapper.getRanDouble(0.15,1.3), RandomWrapper.getRanDouble(9.5,25.8), RandomWrapper.ranBoolean() ? "male" : "female");
+    }
+
+    public ArrayList<PlayfulPet> createPlayfulPets(int amount){
+        ArrayList<PlayfulPet> petList = new ArrayList<>();
+        
+        for(int i = 0; i < amount; i++){
+            petList.add(new Dog(RandomWrapper.getRanDouble(0.15,0.3), RandomWrapper.getRanDouble(2.0,4.9), RandomWrapper.ranBoolean() ? "male" : "female"));
+        }
+
+        return petList;
     }
 }
 
@@ -768,11 +901,31 @@ class PlayfulRabbitAssistant extends PlayfulPetAssistant{
     public PlayfulPet createPlayfulPet(){
         return new Rabbit(RandomWrapper.getRanDouble(0.15,0.4), RandomWrapper.getRanDouble(2.2,10.2), RandomWrapper.ranBoolean() ? "male" : "female");
     }
+
+    public ArrayList<PlayfulPet> createPlayfulPets(int amount){
+        ArrayList<PlayfulPet> petList = new ArrayList<>();
+        
+        for(int i = 0; i < amount; i++){
+            petList.add(new Rabbit(RandomWrapper.getRanDouble(0.15,0.3), RandomWrapper.getRanDouble(2.0,4.9), RandomWrapper.ranBoolean() ? "male" : "female"));
+        }
+
+        return petList;
+    }
 }
 
 class PlayfulPonyAssistant extends PlayfulPetAssistant{
     public PlayfulPet createPlayfulPet(){
         return new Pony(RandomWrapper.getRanDouble(0.15,0.4), RandomWrapper.getRanDouble(2.2,10.2), RandomWrapper.ranBoolean() ? "male" : "female");
+    }
+
+    public ArrayList<PlayfulPet> createPlayfulPets(int amount){
+        ArrayList<PlayfulPet> petList = new ArrayList<>();
+        
+        for(int i = 0; i < amount; i++){
+            petList.add(new Pony(RandomWrapper.getRanDouble(0.15,0.3), RandomWrapper.getRanDouble(2.0,4.9), RandomWrapper.ranBoolean() ? "male" : "female"));
+        }
+
+        return petList;
     }
 }
 
@@ -780,17 +933,47 @@ class PlayfulHamsterAssistant extends PlayfulPetAssistant{
     public PlayfulPet createPlayfulPet(){
         return new Hamster(RandomWrapper.getRanDouble(0.15,0.4), RandomWrapper.getRanDouble(2.2,10.2), RandomWrapper.ranBoolean() ? "male" : "female");
     }
+
+    public ArrayList<PlayfulPet> createPlayfulPets(int amount){
+        ArrayList<PlayfulPet> petList = new ArrayList<>();
+        
+        for(int i = 0; i < amount; i++){
+            petList.add(new Hamster(RandomWrapper.getRanDouble(0.15,0.3), RandomWrapper.getRanDouble(2.0,4.9), RandomWrapper.ranBoolean() ? "male" : "female"));
+        }
+
+        return petList;
+    }
 }
 
 class PlayfulChickenAssistant extends PlayfulPetAssistant{
     public PlayfulPet createPlayfulPet(){
         return new Chicken(RandomWrapper.getRanDouble(0.15,0.4), RandomWrapper.getRanDouble(2.2,10.2), RandomWrapper.ranBoolean() ? "male" : "female");
     }
+
+    public ArrayList<PlayfulPet> createPlayfulPets(int amount){
+        ArrayList<PlayfulPet> petList = new ArrayList<>();
+        
+        for(int i = 0; i < amount; i++){
+            petList.add(new Chicken(RandomWrapper.getRanDouble(0.15,0.3), RandomWrapper.getRanDouble(2.0,4.9), RandomWrapper.ranBoolean() ? "male" : "female"));
+        }
+
+        return petList;
+    }
 }
 
 class PlayfulGoatAssistant extends PlayfulPetAssistant{
     public PlayfulPet createPlayfulPet(){
         return new Goat(RandomWrapper.getRanDouble(0.15,0.4), RandomWrapper.getRanDouble(2.2,10.2), RandomWrapper.ranBoolean() ? "male" : "female");
+    }
+
+    public ArrayList<PlayfulPet> createPlayfulPets(int amount){
+        ArrayList<PlayfulPet> petList = new ArrayList<>();
+        
+        for(int i = 0; i < amount; i++){
+            petList.add(new Goat(RandomWrapper.getRanDouble(0.15,0.3), RandomWrapper.getRanDouble(2.0,4.9), RandomWrapper.ranBoolean() ? "male" : "female"));
+        }
+
+        return petList;
     }
 }
 
@@ -799,14 +982,8 @@ class Main{
         FairyWorld fairyWorld = new FairyWorld();
         Person jessica = new Person("Jessica", "Roller", 30, 1.65, 95, "female");
 
-        fairyWorld.rentPet(new PlayfulCatAssistant(), jessica);
-        
-        // その後、jessicaはdogやrabbitとも遊びます。サブクラス化してfactory methodを実装することで、異なるオブジェクトをサポートするようにコードを拡張しました。
-        fairyWorld.rentPet(new PlayfulDogAssistant(), jessica);
-        fairyWorld.rentPet(new PlayfulRabbitAssistant(), jessica);
-        fairyWorld.rentPet(new PlayfulPonyAssistant(), jessica);
-        fairyWorld.rentPet(new PlayfulHamsterAssistant(), jessica);
-        fairyWorld.rentPet(new PlayfulChickenAssistant(), jessica);
-        fairyWorld.rentPet(new PlayfulGoatAssistant(), jessica);
+        // fairyWorld.rentPet(new PlayfulCatAssistant(), jessica);
+        fairyWorld.rentPet("pony", jessica, 3, null);
+        fairyWorld.getRentedPetsInvoice().get(0).printInvoice();
     }
 }

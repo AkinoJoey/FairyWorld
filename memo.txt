@@ -24,5 +24,35 @@ void reset(): // 全ての状態をデフォルトにクリアしてロボット
 PlayfulPet createPlayfulPet()： // ペットを作成して返します。これはFactory Methodです。
 
 Factory Method(3)の内容
-・pony、hamster、chicken、goat をサポートするようにコードを拡張する
+・pony、hamster、chicken、goat をサポートするようにコードを拡張する→◯
 
+FairyWorld - PlayfulPets Adventuresの内容
+・FairyWorld の PlayfulPet システムを設計し、拡張する
+
+・オプションで人間が n 種類のペットから選択できるようにする→◯
+
+・ペットを選択する際には、FairyWorld が設定した数までレンタルするペットの数を選択することができる→◯
+
+・ペットをレンタルする際、異なるツアーのサポートを可能にする。
+デフォルトでは、PlayfulPetAssistantは「all-rounder pack」と「deluxe rounder pack」を持っていますが、独自のツアーを自由に作成することができる
+
+・FairyWorld の rentPet() メソッドは、レンタルするペットのキーを表す文字列、ペットをレンタルする人間、レンタルするペットの数、レンタルするツアーを表す文字列を受け取る→◯
+rentPet(string petKey, Person p, int amount, String tour)
+
+・FairyWorld は、税務上収益を記録しておく必要があるため、ペットをレンタルするたびに請求書を作成する必要がある。
+ペットがレンタルされるたびに、請求書が生成され、保存される
+・FairyWorld には、getRentedPetsInvoice() という関数があり、請求書のリストを返す→◯
+・各請求書には、タイトル、説明、総費用が含まれており、どのペットが何匹レンタルされたかが反映されている必要がある→◯
+
+・FairyWorld がより多くの PlayfulPetAssistants を追加できるように、addPlayfulPetAssistant(key, playfulPetAssistant) という関数を作成する→◯
+この関数は、PlayfulPet のキーを表す文字列と、レンタルを処理する PlayfulPetAssistant を受け取る
+
+to-do list
+・rentPet()が呼ばれるたび、<String key, PlayfulPetAssistant> のハッシュマップを使用して、ロボットを取得する。→◯
+このハッシュマップは addPlayfulPetAssistant() が呼ばれたときにロボットが追加される場所でもある
+
+・ペットの数を受け取り、PlayfulPets の動的配列を返す、createPlayfulPets(int amount) と呼ばれる別の Factory Method を PlayfulPetAssistant に追加する→◯
+
+・複数のペットを持つ場合、抽象クラス PlayfulPetAssistant は、独自のアルゴリズムを定義する→◯
+Person、ツアーの文字列、ペットの数を受け取る、runAssistanceTourMultiple() と呼ばれるメソッドを作成することもできますし、runAssistanceTour() 関数をオーバーロードして、ペットの数を 3 番目のパラメータに追加することもできる。
+Person、ツアーのみが提供されるケースでは、ペットの数を 1 することで、runAssistanceTour を呼び出すこともできる
