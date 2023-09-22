@@ -56,3 +56,59 @@ to-do list
 ・複数のペットを持つ場合、抽象クラス PlayfulPetAssistant は、独自のアルゴリズムを定義する→◯
 Person、ツアーの文字列、ペットの数を受け取る、runAssistanceTourMultiple() と呼ばれるメソッドを作成することもできますし、runAssistanceTour() 関数をオーバーロードして、ペットの数を 3 番目のパラメータに追加することもできる。
 Person、ツアーのみが提供されるケースでは、ペットの数を 1 することで、runAssistanceTour を呼び出すこともできる
+
+FairyWorld - Virtual Rides
+・Factory Method を使って、アトラクションをサポートするように実装する
+・アルゴリズムに基づいて、アトラクションを作成し、体験をシミュレートする RideExperience クラスを作成する
+・アトラクションの種類
+Family Coasters, Inverted Coasters, Launcher Coaster, Track Rides, Dive Coasters, Water Coasters, Looping Coasters, 
+Junior Coasters, Go Karts, Wood Coasters, Interactive Rides, Gentle Rides, Haunted House, Mechanical Bull
+
+・アトラクションの作成はサブクラスに委ねる
+・RideExperience は、Person と StateOfAffairs というオブジェクトを受け取る ride() と呼ばれるメソッドを提供する抽象クラス
+・StateOfAffairs は、現在の時刻、日付、人数、温度、音のレベル、雰囲気等、FairyWorld に関連した多くの情報を含むオブジェクト。
+この StateOfAffairs オブジェクトは、後から拡張することができ、より多くの情報を持つことができる
+ride() は、Person が乗るアトラクションを作成し、アトラクションに乗っている様子をシミュレートし、Person の状態を更新する
+・アトラクションを作成するには、createRide() と呼ばれる Factory Method を使用する
+・アトラクションは、以下のメソッドを持つインターフェース
+
+// アトラクションの評価を0から100までのdouble値のパーセントで返すメソッド。
+double kidFriendliness() - // 子供にとってのアトラクションの満足度。
+double teenFriendliness() - // 10代（ティーンエイジャー）にとってのアトラクションの満足度。
+double adultFriendliness() - // 大人にとってのアトラクションの満足度。
+double scariness() - // アトラクションの恐怖度。
+double thrill() - // アトラクションのスリル度。
+double laughter() - // アトラクションの面白度。
+double sightseeing() - // アトラクションの観賞度。
+double comfortableness() - // アトラクションの快適度。
+
+// アトラクションに関する情報を提供するメソッド。
+double averageSpeedM() - // アトラクションの平均速度(m/s)。
+double maximumSpeed() - // アトラクションの最大速度。
+double maximumWeight() - // アトラクションがサポートする最大の体重。
+double minimumHeight() - // アトラクションがサポートする最小の身長。
+double maximumHeight() - // アトラクションがサポートする最大の身長。
+string warnings() - // アトラクションが文字列として出力する警告。健康状態、発作、閉所恐怖症、妊娠、首のトラブルのような警告が含まれます。
+
+// アトラクションの説明を行うメソッド。
+String description() - // アトラクションに関する説明。
+String title() - // アトラクションの名前。
+String rideNarration(StateOfAffairs parkState) - // アトラクション中のナレーション。最初から最後までのアトラクション全体を描写します。
+StateOfAffairsオブジェクトが渡され、このオブジェクトによってアトラクションの雰囲気が変わります。
+RideExperienceはこのStateOfAffairsオブジェクトを作成し、rideNarrationを呼び出す時に渡します。
+
+・Person クラスを拡張して Status インターフェースを実装する。
+この Status インターフェースには、Person の一般的な状態に対してセッター/ゲッターが含まれている。
+例えば、状態が Happiness であれば、getHappiness() と setHappiness() を持つ。
+以下が状態。
+Happiness, Energy, Nausea, Bathroom, Frightful
+
+・ride() 関数は、アトラクション、Person、シミュレーションに必要な情報を出力する。
+アトラクションのナレーションを行い、恐怖度、スリル度、満足度等のデータを用いて、アトラクションに乗った Person の心情を描写する
+
+・Person のゲッター/セッターを呼び出すことで、Person の状態を更新する。
+例えば、ちょうど良いスリルがあるとき、幸福度を上げることができます。またアトラクションが子供向けではない場合、一定時間子供が泣く要素を描写することができます。
+
+・抽象クラス RideExperience を実装する
+・RideExperience をサブクラス化し、createRide() という Factory Method を実装することで、複数の異なるアトラクションを作成してください。
+
