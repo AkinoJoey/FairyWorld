@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 class RandomWrapper{
     public static double getRanDouble(double min, double max){
@@ -975,6 +977,41 @@ class PlayfulGoatAssistant extends PlayfulPetAssistant{
         return petList;
     }
 }
+
+interface Rides{
+    abstract public double kidFriendliness();// アトラクションの評価を0から100までのdouble値のパーセントで返すメソッド。
+    abstract public double teenFriendliness() ; // 10代（ティーンエイジャー）にとってのアトラクションの満足度。
+    abstract public double adultFriendliness() ; // 大人にとってのアトラクションの満足度。
+    abstract public double scariness() ; // アトラクションの恐怖度。
+    abstract public double thrill() ; // アトラクションのスリル度。
+    abstract public double laughter() ; // アトラクションの面白度。
+    abstract public double sightseeing() ; // アトラクションの観賞度。
+    abstract public double comfortableness() ; // アトラクションの快適度。
+
+    // アトラクションに関する情報を提供するメソッド。
+    abstract public double averageSpeedM() ; // アトラクションの平均速度(m/s)。
+    abstract public double maximumSpeed() ; // アトラクションの最大速度。
+    abstract public double maximumWeight() ; // アトラクションがサポートする最大の体重。
+    abstract public double minimumHeight() ; // アトラクションがサポートする最小の身長。
+    abstract public double maximumHeight() ; // アトラクションがサポートする最大の身長。
+    abstract public String warnings() ; // アトラクションが文字列として出力する警告。健康状態、発作、閉所恐怖症、妊娠、首のトラブルのような警告が含まれます。
+
+    // アトラクションの説明を行うメソッド。
+    abstract public String description() ; // アトラクションに関する説明。
+    abstract public String title() ; // アトラクションの名前。
+    abstract public String rideNarration(StateOfAffairs parkState);
+}
+
+class StateOfAffairs{
+    private LocalDate date;
+    private LocalTime time;
+    private int numOfPerson;
+    private double temperature;
+    private double levelOfSound;
+    private String mood;
+    
+}
+
 
 class Main{
     public static void main(String[] args){
