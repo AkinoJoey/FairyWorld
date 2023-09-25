@@ -35,6 +35,22 @@ class Person{
     public String toString(){
         return this.getName();
     }
+
+    public double getAge(){
+        return this.age;
+    }
+
+    public double getHeightM(){
+        return this.heightM;
+    }
+
+    public double getWeightKg(){
+        return this.weightKg;
+    }
+
+    public String getBiologicalSex(){
+        return this.biologicalSex;
+    }
     
 }
 
@@ -276,7 +292,7 @@ class LaserFlyingMonster extends LaserHighTierMonster implements Fly, FlyingMons
 
     public LaserFlyingMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed){
         super(hp, attack, defense, level, points, movementSpeed);
-        this.flyingSpeed = this.flyingSpeed;
+        this.flyingSpeed = flyingSpeed;
     }
 
     public LaserFlyingMonster(int level){
