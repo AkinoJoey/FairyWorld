@@ -1,0 +1,233 @@
+@startuml fairyworld
+class Person{
+    - String firstName
+    - String lastName
+    - int age
+    - double heightM
+    - double weightKg
+    - String biologicalSex
+
+    + Person(String firstName, String lastName, int age, double heightM, double weightKg, String biologicalSex)
+    + String getName()
+    + String toString()
+}
+
+interface LaserTagMonsterFactory{
+    {abstract} + LowTierMonster createLowTierMonster()
+    {abstract} + MidTierMonster createMidTierMonster()
+    {abstract} + HighTierMonster createHighTierMonster()
+    {abstract} + FlyingMonster createFlyingMonster()
+    {abstract} + HybridMonster createHybridMonster()
+    {abstract} + FinalBossMonster createFinalBossMonster()
+}
+
+class Skill{
+    # int damage
+    # String description
+
+    + Skill(int damage, String description)
+    + int getDamage()
+    + String getDescription()
+}
+
+interface Monster{
+    {abstract} + int getHp()
+    {abstract} + int getAttack()
+    {abstract} + int getDefense()
+    {abstract} + int getLevel()
+    {abstract} + int getPoints()
+    {abstract} + int getMovementSpeed()
+    {abstract} + String getMonsterName()
+    {abstract} + String getAppearance()
+    {abstract} + String kill() 
+    {abstract} + Skill[] getSpecialSkill()
+}
+
+
+interface LowTierMonster extends Monster{
+    {abstract} + Skill mainSkill()
+}
+
+interface MidTierMonster extends LowTierMonster{
+    {abstract} + Skill sideSkill()
+}
+
+interface HighTierMonster extends MidTierMonster{
+    {abstract} + Skill[] sideSkills()
+}
+
+interface FlyingMonster extends HighTierMonster{
+    {abstract} + Skill mainFlySkill()
+    {abstract} + Skill[] flySideSkills()
+    {abstract} + Skill[] getFlyingSkills()
+    {abstract} + int getFlySpeed()
+    {abstract} + String flyAnimation()
+}
+
+interface HybridMonster extends FlyingMonster{
+    {abstract} + int getAscendSpeed()
+    {abstract} + int getDescendSpeed()
+}
+
+interface Fly{
+    {abstract} + String fly()
+}
+
+interface FinalBossMonster extends HighTierMonster{
+    {abstract} + String stageIncrement()
+    {abstract} + String stageDecrement()
+}
+
+class LaserMonster implements Monster{
+    # static int[] MULTIPLIERS = {100,20,30,5,1}
+
+    # String monsterName
+    # int hp
+    # int attack
+    # int defense
+    # int level
+    # int points
+    # int movementSpeed
+    # Skill[] specialSkills
+
+    + LaserMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
+
+    + LaserMonster(int level)
+
+    # void setInitialSkills()
+
+    # void setSpecialSkills(Skill[] skills)
+
+    + int getHp()
+
+    + int getAttack()
+
+    + int getDefense()
+
+    + int getPoints()
+
+    + int getLevel()
+
+    + int getMovementSpeed()
+
+    + String kill()
+
+    + Skill[] getSpecialSkill()
+
+    + String getMonsterName()
+
+    + String getAppearance()
+
+    + String toString()
+}
+
+class LaserLowTierMonster extends LaserMonster implements LowTierMonster{
+    + LaserLowTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
+
+    + LaserLowTierMonster(int level)
+
+    + Skill mainSkill()
+
+    + String getMonsterName()
+}
+
+class LaserMidTierMonster extends LaserLowTierMonster implements MidTierMonster{
+
+    + LaserMidTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
+
+    + LaserMidTierMonster(int level)
+
+    + Skill sideSkill()
+    # void setInitialSkills()
+
+    + String getMonsterName()
+}
+
+class LaserHighTierMonster extends LaserMidTierMonster implements HighTierMonster{
+    + LaserHighTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
+
+    + LaserHighTierMonster(int level)
+    
+
+    + Skill[] sideSkills()
+
+    # void setInitialSkills()
+
+    + String getMonsterName()
+}
+
+class LaserFlyingMonster extends LaserHighTierMonster implements Fly, FlyingMonster{
+    # int flyingSpeed
+    # Skill[] flyingSkills
+
+    + LaserFlyingMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed)
+
+    + LaserFlyingMonster(int level)
+
+    + int getFlySpeed()
+
+    + String flyAnimation()
+
+    + String fly()
+
+    # void setInitialSkills()
+    # void setFlyingSkills(Skill[] skills)
+
+    + Skill[] getFlyingSkills()
+    + Skill mainFlySkill()
+    + Skill[] flySideSkills()
+    + String getMonsterName()
+}
+
+class LaserHybridMonster extends LaserFlyingMonster implements HybridMonster{
+    # int ascendSpeed
+    # int descendSpeed
+
+    + LaserHybridMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed, int ascendSpeed, int descendSpeed)
+
+    + LaserHybridMonster(int level)
+    + int getAscendSpeed()
+    + int getDescendSpeed()
+
+    + String getMonsterName()
+}
+
+class LaserFinalBossMonster extends LaserHighTierMonster implements FinalBossMonster{
+    # static final int TOTAL_STAGES = 3
+    # int currentStage = 0
+
+    + LaserFinalBossMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
+
+    + LaserFinalBossMonster(int level)
+
+    + String stageIncrement()
+
+    + String stageDecrement()
+
+    + String getMonsterName()
+}
+
+class RandomWrapper{
+    + static int getRan(int min, int max)
+
+    + static boolean ranBoolean()
+}
+
+class GenericLaserTagMonsterFactory implements LaserTagMonsterFactory{
+    + LowTierMonster createLowTierMonster()
+
+    + MidTierMonster createMidTierMonster()
+
+    + HighTierMonster createHighTierMonster()
+
+    + FlyingMonster createFlyingMonster()
+
+    + HybridMonster createHybridMonster()
+
+    + FinalBossMonster createFinalBossMonst()
+}
+
+class FairyWorld{
+    + void playLaserTag(Person person, LaserTagMonsterFactory factory)
+}
+@enduml
