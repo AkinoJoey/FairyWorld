@@ -85,3 +85,8 @@ Happiness, Energy, Nausea, Bathroom, Frightful
 ・抽象クラス RideExperience を実装する→◯
 ・RideExperience をサブクラス化し、createRide() という Factory Method を実装することで、複数の異なるアトラクションを作成してください。→◯
 
+Abstract Factory(3)
+・FairyWorld のレーザータグのコードベースを拡張し以下のモンスターをサポートしてください
+・メカ→◯
+・マダガスカル→◯
+・アンダーワールド→◯

@@ -544,6 +544,342 @@ class AntarcticaLaserTagMonsterFactory implements LaserTagMonsterFactory {
 }
 //--------------------------------------
 
+class MechaLowTierMonster extends LaserLowTierMonster{
+    public MechaLowTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public MechaLowTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Mecha Low Tier Monster";
+    }
+}
+
+class MechaMidTierMonster extends LaserMidTierMonster{
+
+    public MechaMidTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public MechaMidTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Mecha Mid Tier Monster";
+    }
+};
+
+class MechaHighTierMonster extends LaserHighTierMonster{
+    public MechaHighTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public MechaHighTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Mecha High Tier Monster";
+    }
+};
+
+class MechaFlyingMonster extends LaserFlyingMonster{
+    public MechaFlyingMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed){
+        super(hp, attack, defense, level, points, movementSpeed, flyingSpeed);
+    }
+
+    public MechaFlyingMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Mecha Flying Monster";
+    }
+};
+
+class MechaHybridMonster extends LaserHybridMonster{
+    public MechaHybridMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed, int ascendSpeed, int descendSpeed){
+        super(hp, attack, defense, level, points, movementSpeed, flyingSpeed, ascendSpeed, descendSpeed);
+    }
+
+    public MechaHybridMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Mecha Hybrid Monster";
+    }
+}
+
+class MechaFinalBossMonster extends LaserFinalBossMonster{
+    public MechaFinalBossMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public MechaFinalBossMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Mecha Final Boss Monster";
+    }
+}
+
+// Mecha abstract factoryの実装
+class MechaLaserTagMonsterFactory implements LaserTagMonsterFactory {
+    public LowTierMonster createLowTierMonster(){
+        return new MechaLowTierMonster(RandomWrapper.getRan(1,20));
+    };
+
+    public MidTierMonster createMidTierMonster(){
+        return new MechaMidTierMonster(RandomWrapper.getRan(5,30));
+    };
+
+    public HighTierMonster createHighTierMonster(){
+        return new MechaHighTierMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public FlyingMonster createFlyingMonster(){
+        return new MechaFlyingMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public HybridMonster createHybridMonster(){
+        return new MechaHybridMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public FinalBossMonster createFinalBossMonster(){
+        return new MechaFinalBossMonster(RandomWrapper.getRan(40,100));
+    };
+}
+
+class MadagascarLowTierMonster extends LaserLowTierMonster{
+    public MadagascarLowTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public MadagascarLowTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Madagascar Low Tier Monster";
+    }
+}
+
+class MadagascarMidTierMonster extends LaserMidTierMonster{
+
+    public MadagascarMidTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public MadagascarMidTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Madagascar Mid Tier Monster";
+    }
+};
+
+class MadagascarHighTierMonster extends LaserHighTierMonster{
+    public MadagascarHighTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public MadagascarHighTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Madagascar High Tier Monster";
+    }
+};
+
+class MadagascarFlyingMonster extends LaserFlyingMonster{
+    public MadagascarFlyingMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed){
+        super(hp, attack, defense, level, points, movementSpeed, flyingSpeed);
+    }
+
+    public MadagascarFlyingMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Madagascar Flying Monster";
+    }
+};
+
+class MadagascarHybridMonster extends LaserHybridMonster{
+    public MadagascarHybridMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed, int ascendSpeed, int descendSpeed){
+        super(hp, attack, defense, level, points, movementSpeed, flyingSpeed, ascendSpeed, descendSpeed);
+    }
+
+    public MadagascarHybridMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Madagascar Hybrid Monster";
+    }
+}
+
+class MadagascarFinalBossMonster extends LaserFinalBossMonster{
+    public MadagascarFinalBossMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public MadagascarFinalBossMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Madagascar Final Boss Monster";
+    }
+}
+
+// Madagascar abstract factoryの実装
+class MadagascarLaserTagMonsterFactory implements LaserTagMonsterFactory {
+    public LowTierMonster createLowTierMonster(){
+        return new MadagascarLowTierMonster(RandomWrapper.getRan(1,20));
+    };
+
+    public MidTierMonster createMidTierMonster(){
+        return new MadagascarMidTierMonster(RandomWrapper.getRan(5,30));
+    };
+
+    public HighTierMonster createHighTierMonster(){
+        return new MadagascarHighTierMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public FlyingMonster createFlyingMonster(){
+        return new MadagascarFlyingMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public HybridMonster createHybridMonster(){
+        return new MadagascarHybridMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public FinalBossMonster createFinalBossMonster(){
+        return new MadagascarFinalBossMonster(RandomWrapper.getRan(40,100));
+    };
+}
+
+class UnderworldLowTierMonster extends LaserLowTierMonster{
+    public UnderworldLowTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public UnderworldLowTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Underworld Low Tier Monster";
+    }
+}
+
+class UnderworldMidTierMonster extends LaserMidTierMonster{
+
+    public UnderworldMidTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public UnderworldMidTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Underworld Mid Tier Monster";
+    }
+};
+
+class UnderworldHighTierMonster extends LaserHighTierMonster{
+    public UnderworldHighTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public UnderworldHighTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Underworld High Tier Monster";
+    }
+};
+
+class UnderworldFlyingMonster extends LaserFlyingMonster{
+    public UnderworldFlyingMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed){
+        super(hp, attack, defense, level, points, movementSpeed, flyingSpeed);
+    }
+
+    public UnderworldFlyingMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Underworld Flying Monster";
+    }
+};
+
+class UnderworldHybridMonster extends LaserHybridMonster{
+    public UnderworldHybridMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed, int ascendSpeed, int descendSpeed){
+        super(hp, attack, defense, level, points, movementSpeed, flyingSpeed, ascendSpeed, descendSpeed);
+    }
+
+    public UnderworldHybridMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Underworld Hybrid Monster";
+    }
+}
+
+class UnderworldFinalBossMonster extends LaserFinalBossMonster{
+    public UnderworldFinalBossMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public UnderworldFinalBossMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Underworld Final Boss Monster";
+    }
+}
+
+// Underworld abstract factoryの実装
+class UnderworldLaserTagMonsterFactory implements LaserTagMonsterFactory {
+    public LowTierMonster createLowTierMonster(){
+        return new UnderworldLowTierMonster(RandomWrapper.getRan(1,20));
+    };
+
+    public MidTierMonster createMidTierMonster(){
+        return new UnderworldMidTierMonster(RandomWrapper.getRan(5,30));
+    };
+
+    public HighTierMonster createHighTierMonster(){
+        return new UnderworldHighTierMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public FlyingMonster createFlyingMonster(){
+        return new UnderworldFlyingMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public HybridMonster createHybridMonster(){
+        return new UnderworldHybridMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public FinalBossMonster createFinalBossMonster(){
+        return new UnderworldFinalBossMonster(RandomWrapper.getRan(40,100));
+    };
+}
+
 class FairyWorld{
     public void playLaserTag(Person person, LaserTagMonsterFactory factory){
         String endl = System.lineSeparator();
@@ -575,5 +911,8 @@ class Main{
 
         fairyWorld.playLaserTag(jessica, new GenericLaserTagMonsterFactory());
         fairyWorld.playLaserTag(jessica, new AntarcticaLaserTagMonsterFactory());
+        fairyWorld.playLaserTag(jessica, new MechaLaserTagMonsterFactory());
+        fairyWorld.playLaserTag(jessica, new MadagascarLaserTagMonsterFactory());
+        fairyWorld.playLaserTag(jessica, new UnderworldLaserTagMonsterFactory());
     }
 }
