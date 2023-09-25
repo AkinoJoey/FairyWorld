@@ -1,291 +1,35 @@
-@startuml fairyWorld
-class Person{
-    - String firstName
-    - String lastName
-    - int age
-    - double heightM
-    - double weightKg
-    - String biologicalSex
-
-    + Person(String firstName, String lastName, int age, double heightM, double weightKg, String biologicalSex)
-    + String getName()
-    + String toString()
+@startuml toyKits
+interface HumanoidToyKitFactory{
+    public 
 }
 
-interface LaserTagMonsterFactory{
-    {abstract} + LowTierMonster createLowTierMonster()
-    {abstract} + MidTierMonster createMidTierMonster()
-    {abstract} + HighTierMonster createHighTierMonster()
-    {abstract} + FlyingMonster createFlyingMonster()
-    {abstract} + HybridMonster createHybridMonster()
-    {abstract} + FinalBossMonster createFinalBossMonster()
+class RobotToyFactory implements HumanoidToyKitFactory{
+    + RetroRobot createRetroRobot()
+    + DogFaceRobot createDogFaceRobot()
 }
 
-class Skill{
-    # int damage
-    # String description
-
-    + Skill(int damage, String description)
-    + int getDamage()
-    + String getDescription()
+interface ToyKit{
+    + String getHead()
+    + String getBody()
+    + String getLeftHand()
+    + String getRightHand()
+    + String getLeftFoot()
+    + String getRightFood()
+    + String getSound()
+    + String move()
+    + String getToyName()
 }
 
-interface Monster{
-    {abstract} + int getHp()
-    {abstract} + int getAttack()
-    {abstract} + int getDefense()
-    {abstract} + int getLevel()
-    {abstract} + int getPoints()
-    {abstract} + int getMovementSpeed()
-    {abstract} + String getMonsterName()
-    {abstract} + String getAppearance()
-    {abstract} + String kill() 
-    {abstract} + Skill[] getSpecialSkill()
+interface Product{
+    + getCosts()
 }
 
-
-interface LowTierMonster extends Monster{
-    {abstract} + Skill mainSkill()
-}
-
-interface MidTierMonster extends LowTierMonster{
-    {abstract} + Skill sideSkill()
-}
-
-interface HighTierMonster extends MidTierMonster{
-    {abstract} + Skill[] sideSkills()
-}
-
-interface FlyingMonster extends HighTierMonster{
-    {abstract} + Skill mainFlySkill()
-    {abstract} + Skill[] flySideSkills()
-    {abstract} + Skill[] getFlyingSkills()
-    {abstract} + int getFlySpeed()
-    {abstract} + String flyAnimation()
-}
-
-interface HybridMonster extends FlyingMonster{
-    {abstract} + int getAscendSpeed()
-    {abstract} + int getDescendSpeed()
-}
-
-interface Fly{
-    {abstract} + String fly()
-}
-
-interface FinalBossMonster extends HighTierMonster{
-    {abstract} + String stageIncrement()
-    {abstract} + String stageDecrement()
-}
-
-class LaserMonster implements Monster{
-    # static int[] MULTIPLIERS = {100,20,30,5,1}
-
-    # String monsterName
-    # int hp
-    # int attack
-    # int defense
-    # int level
-    # int points
-    # int movementSpeed
-    # Skill[] specialSkills
-
-    + LaserMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
-
-    + LaserMonster(int level)
-
-    # void setInitialSkills()
-
-    # void setSpecialSkills(Skill[] skills)
-
-    + int getHp()
-
-    + int getAttack()
-
-    + int getDefense()
-
-    + int getPoints()
-
-    + int getLevel()
-
-    + int getMovementSpeed()
-
-    + String kill()
-
-    + Skill[] getSpecialSkill()
-
-    + String getMonsterName()
-
-    + String getAppearance()
-
-    + String toString()
-}
-
-class LaserLowTierMonster extends LaserMonster implements LowTierMonster{
-    + LaserLowTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
-
-    + LaserLowTierMonster(int level)
-
-    + Skill mainSkill()
-
-    + String getMonsterName()
-}
-
-class LaserMidTierMonster extends LaserLowTierMonster implements MidTierMonster{
-
-    + LaserMidTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
-
-    + LaserMidTierMonster(int level)
-
-    + Skill sideSkill()
-    # void setInitialSkills()
-
-    + String getMonsterName()
-}
-
-class LaserHighTierMonster extends LaserMidTierMonster implements HighTierMonster{
-    + LaserHighTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
-
-    + LaserHighTierMonster(int level)
-    
-
-    + Skill[] sideSkills()
-
-    # void setInitialSkills()
-
-    + String getMonsterName()
-}
-
-class LaserFlyingMonster extends LaserHighTierMonster implements Fly, FlyingMonster{
-    # int flyingSpeed
-    # Skill[] flyingSkills
-
-    + LaserFlyingMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed)
-
-    + LaserFlyingMonster(int level)
-
-    + int getFlySpeed()
-
-    + String flyAnimation()
-
-    + String fly()
-
-    # void setInitialSkills()
-    # void setFlyingSkills(Skill[] skills)
-
-    + Skill[] getFlyingSkills()
-    + Skill mainFlySkill()
-    + Skill[] flySideSkills()
-    + String getMonsterName()
-}
-
-class LaserHybridMonster extends LaserFlyingMonster implements HybridMonster{
-    # int ascendSpeed
-    # int descendSpeed
-
-    + LaserHybridMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed, int ascendSpeed, int descendSpeed)
-
-    + LaserHybridMonster(int level)
-    + int getAscendSpeed()
-    + int getDescendSpeed()
-
-    + String getMonsterName()
-}
-
-class LaserFinalBossMonster extends LaserHighTierMonster implements FinalBossMonster{
-    # static final int TOTAL_STAGES = 3
-    # int currentStage = 0
-
-    + LaserFinalBossMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
-
-    + LaserFinalBossMonster(int level)
-
-    + String stageIncrement()
-
-    + String stageDecrement()
-
-    + String getMonsterName()
-}
-
-class RandomWrapper{
-    + static int getRan(int min, int max)
-
-    + static boolean ranBoolean()
-}
-
-class GenericLaserTagMonsterFactory implements LaserTagMonsterFactory{
-    + LowTierMonster createLowTierMonster()
-
-    + MidTierMonster createMidTierMonster()
-
-    + HighTierMonster createHighTierMonster()
-
-    + FlyingMonster createFlyingMonster()
-
-    + HybridMonster createHybridMonster()
-
-    + FinalBossMonster createFinalBossMonster()
-}
-
-class AntarcticaLowTierMonster extends LaserLowTierMonster{
-    public AntarcticaLowTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
-
-    public AntarcticaLowTierMonster(int level)
-
-    public String getMonsterName()
-}
-
-class AntarcticaMidTierMonster extends LaserMidTierMonster{
-
-    public AntarcticaMidTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
-    public AntarcticaMidTierMonster(int level)
-    public String getMonsterName()
-}
-
-class AntarcticaHighTierMonster extends LaserHighTierMonster{
-    public AntarcticaHighTierMonster
-    public AntarcticaHighTierMonster(int level)
-
-    public String getMonsterName()
-};
-
-class AntarcticaFlyingMonster extends LaserFlyingMonster{
-    public AntarcticaFlyingMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed)
-    public AntarcticaFlyingMonster(int level)
-
-    public String getMonsterName()
-};
-
-class AntarcticaHybridMonster extends LaserHybridMonster{
-    public AntarcticaHybridMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed, int ascendSpeed, int descendSpeed)
-
-    public AntarcticaHybridMonster(int level)
-
-    public String getMonsterName()
-}
-
-class AntarcticaFinalBossMonster extends LaserFinalBossMonster{
-    public AntarcticaFinalBossMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
-
-    public AntarcticaFinalBossMonster(int level)
-
-    public String getMonsterName()
-}
-
-class AntarcticaLaserTagMonsterFactory implements LaserTagMonsterFactory {
-    public LowTierMonster createLowTierMonster()
-
-    public MidTierMonster createMidTierMonster()
-
-    public HighTierMonster createHighTierMonster()
-
-    public FlyingMonster createFlyingMonster()
-
-    public HybridMonster createHybridMonster()
-
-    public FinalBossMonster createFinalBossMonster()
-}
 class FairyWorld{
-    + void playLaserTag(Person person, LaserTagMonsterFactory factory)
+    + createAHumanoidToyByKit(Person person, HumanoidToyKitFactory factory)
 }
+
+
 @enduml
+
+レーザータグモンスターのURL図
+https://www.plantuml.com/plantuml/png/pLbRRzis57xthn2G5nlX07V5deO1TP6c3MPlGUsX3qDHq1Bj49KeWPJJ64R--oY9bC-XA5fUuc5vYNLuRZhNp_GxLL9Pxh8qsb0kzrzocIQZEALAHVTCgbmSHf7--obQbfABRRJXKfL_q8nXiXQ0L2xAY6xjKvBlrYcB7XZVFfGBJFnH4t_VOdLhdgVvbiSqNRAdKNrsRVmPkuuGrmTYpHF7Cd6D4g-zYR5dphQirZfso6NUVD3qvz58MsHoGsCMpQbYSaMtYrmeJRkbSPdBVHF50rshKchAizOppt-iE9E6BuebeoN3H6CJYIruqXN3H9_O9_t6NJc7wXEyJVVwBR4OedcjxTUI9uujIFDQueAcxtEb76CEkGbuKwBBxpnDczXUrLbFQ6RhxifcAc4gbhmeUIviATLouwC0yV3QV5TSkWPkQiPnjpXkZY9kBHYFFSatIZyLla2OmrbPqlXxWE66RPXGBC0nPuyi3PpVv_g32Z0iyaUMCL4k2yOI7zyn3kPbGQ_qCCwAWb59HHpYgnCqYJpdrSdVNoj5sgcOwvPjUAlGmpx4xSMUIYOI5KX9hIRAA1T08SWbxZkh3vlfLQjumhngtRvi_KJc3lrnQ3KhLpNkNAlOCHWCXDPWdUwrlz4yq8LGmXgF-bbDqLLcJzIRjZeJFAE-hiF3nxutYaP_HyvKhDbxpRUTXzZSi1z2VdVutR5tHgOQfNg5RzcTqEEoQjL0r6h66tPaR0TflRMi0pmhqfh3QPUhIa79uoeAEg6Bl-Qhk_lvtOVFo-YtwF1cEYK_JydRAVc5l7aUuHcS7OS3cDOF1NYWzRY3ixmPRu2ILkCCF1Vr-0A438uhwu5j530jb5q4yBt7ZKi4U4EW8-Je0m7cITVof5TzBJsnmNdCUH8fLju9NhQkZJl7SCwfSVi-zMDh2cuKJ6htYBFGsks1wUrEm6IxIZ3LtGzuEvhP0PUkTt9tTYhU9PrZj452i0mKTyy-w2jytro_zccwLDLuhC3YyUsh4s5qchrddtbY1UU1ivPGdMCGUgbkwbhnnGKkt07DDZHgVUlQ5r8GDkyel_Qgl5JSV6PCu2ekjqaHh7ZD2FfHYJUu881QYlXMU3FsDmsky0pz3K0SA1puAyohnPou_anEMCMrsmL0EBOExEaSdiuLFaM0h6UnXF5R02w6CUBWZlEYEKyfmNQ3Ch1Gw16s8Q01oAXdq5VMonK9SPqZ7Ryc9nm3hHp0idq0zhmExWEi9vlO4NHGvQOwhXrS_RcQpRyjLxEF7ofe-HRaAjv9MSMnGhBwQ8hRoxqgkD0izTfnjb0FDFSSGq0-D16VgKZox8ka6Wcrw-I8pYj9pLBxbN5XNeW-jGOCwphFKqP5fB7K--OZDFAH2IPvxB_HGc0fSESrzABBC0-xtZBCGo-r3FkGgoohUS05bjLw_hNLJ9HKnZe1D8HAVH2qsArJdRS-1QzUy4FimS8t_2VhzwWmX4EzQBFZqkLmvr1pOFYU7u0WfFG2nuvB3jSWfhDJzslNzG2Mys2rZaV_7GORQFw5uGX05GyYwIReVuSs1hZuikOFGma_NkZcyT9RVvZ5bqNYtoxP20NbZ5Lh9CxOjqRYhALhP0PlNcjZwFgr-i_OmKtaRzjVEorCgRyJ5IdTsq2FcnySewB-H_eIi6d-LwhVwThTPUa_
