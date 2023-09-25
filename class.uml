@@ -1,4 +1,4 @@
-@startuml fairyworld
+@startuml fairyWorld
 class Person{
     - String firstName
     - String lastName
@@ -224,9 +224,67 @@ class GenericLaserTagMonsterFactory implements LaserTagMonsterFactory{
 
     + HybridMonster createHybridMonster()
 
-    + FinalBossMonster createFinalBossMonst()
+    + FinalBossMonster createFinalBossMonster()
 }
 
+class AntarcticaLowTierMonster extends LaserLowTierMonster{
+    public AntarcticaLowTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
+
+    public AntarcticaLowTierMonster(int level)
+
+    public String getMonsterName()
+}
+
+class AntarcticaMidTierMonster extends LaserMidTierMonster{
+
+    public AntarcticaMidTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
+    public AntarcticaMidTierMonster(int level)
+    public String getMonsterName()
+}
+
+class AntarcticaHighTierMonster extends LaserHighTierMonster{
+    public AntarcticaHighTierMonster
+    public AntarcticaHighTierMonster(int level)
+
+    public String getMonsterName()
+};
+
+class AntarcticaFlyingMonster extends LaserFlyingMonster{
+    public AntarcticaFlyingMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed)
+    public AntarcticaFlyingMonster(int level)
+
+    public String getMonsterName()
+};
+
+class AntarcticaHybridMonster extends LaserHybridMonster{
+    public AntarcticaHybridMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed, int ascendSpeed, int descendSpeed)
+
+    public AntarcticaHybridMonster(int level)
+
+    public String getMonsterName()
+}
+
+class AntarcticaFinalBossMonster extends LaserFinalBossMonster{
+    public AntarcticaFinalBossMonster(int hp, int attack, int defense, int level, int points, int movementSpeed)
+
+    public AntarcticaFinalBossMonster(int level)
+
+    public String getMonsterName()
+}
+
+class AntarcticaLaserTagMonsterFactory implements LaserTagMonsterFactory {
+    public LowTierMonster createLowTierMonster()
+
+    public MidTierMonster createMidTierMonster()
+
+    public HighTierMonster createHighTierMonster()
+
+    public FlyingMonster createFlyingMonster()
+
+    public HybridMonster createHybridMonster()
+
+    public FinalBossMonster createFinalBossMonster()
+}
 class FairyWorld{
     + void playLaserTag(Person person, LaserTagMonsterFactory factory)
 }

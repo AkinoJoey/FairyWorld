@@ -1,6 +1,16 @@
 import java.util.Arrays;
 import java.util.Random;
 
+class RandomWrapper{
+    public static int getRan(int min, int max){
+        return min + (int)(Math.random() * ((max - min) + 1));
+    }
+
+    public static boolean ranBoolean(){
+        return new Random().nextBoolean();
+    }
+}
+
 class Person{
     private String firstName;
     private String lastName;
@@ -25,9 +35,9 @@ class Person{
     public String toString(){
         return this.getName();
     }
+    
 }
 
-// Abstract FactoryはLaserTagMonsterFactoryと呼ばれます。factory methodを使用して、ユーザーはこのクラスをサブクラス化し、creation methodを実装することができます。
 interface LaserTagMonsterFactory{
     abstract public LowTierMonster createLowTierMonster();
     abstract public MidTierMonster createMidTierMonster();
@@ -37,9 +47,6 @@ interface LaserTagMonsterFactory{
     abstract public FinalBossMonster createFinalBossMonster();
 }
 
-// キャラクターのためのスキル。以下のように拡張することができます。
-// 例えば、モンスターを受け取り、モンスターに何かをする applySKill(Monster m) 関数を持つ MonsterPassiveSkill を作成することができます。
-// セッターを持たないことでスキルを不変にしていきます。
 class Skill{
     protected int damage;
     protected String description;
@@ -58,7 +65,6 @@ class Skill{
     }
 }
 
-// ベースのモンスターのインターフェースを定義します。
 interface Monster{
     abstract public int getHp();
     abstract public int getAttack();
@@ -68,29 +74,22 @@ interface Monster{
     abstract public int getMovementSpeed();
     abstract public String getMonsterName();
     abstract public String getAppearance();
-    abstract public String kill(); // killは倒れていくアニメーションのナレーションを返します。
+    abstract public String kill(); //kill will return a dying animation narration.
     abstract public Skill[] getSpecialSkill();
 }
 
-// 各モンスタータイプのインターフェースを定義します。
-
-// Low tierは1つのスキルしか持っていません。
 interface LowTierMonster extends Monster{
     abstract public Skill mainSkill();
 }
 
-// Mid tierはLow tierと同じですがサブスキルを持っています。
 interface MidTierMonster extends LowTierMonster{
     abstract public Skill sideSkill();
 };
 
-// High tierはMid tierと同じで、追加として複数のサブスキルを持っています。
 interface HighTierMonster extends MidTierMonster{
     abstract public Skill[] sideSkills();
 };
 
-// Flyingモンスターは、High tierと同様のスキルに加えて、飛行スキルとサブスキルを持っています。
-// 飛行スピードと飛行アニメーションを持ちます。
 interface FlyingMonster extends HighTierMonster{
     abstract public Skill mainFlySkill();
     abstract public Skill[] flySideSkills();
@@ -99,8 +98,6 @@ interface FlyingMonster extends HighTierMonster{
     abstract public String flyAnimation();
 };
 
-// Hybridは上空と地上の両方に対応可能なモンスターです。また、昇降能力も持っています。
-// メインスキルは地上用で、mainFlySkillは飛行用になります。
 interface HybridMonster extends FlyingMonster{
     abstract public int getAscendSpeed();
     abstract public int getDescendSpeed();
@@ -110,15 +107,12 @@ interface Fly{
     abstract public String fly();
 }
 
-// Final bossは、high tierモンスターより上位の存在です。複数の状態を持っており、プレイヤーがしばらくの間攻撃せず、HPが回復した場合、前の状態に戻ります。
 interface FinalBossMonster extends HighTierMonster{
     abstract public String stageIncrement();
     abstract public String stageDecrement();
 }
 
-// モンスターから汎用的な具象クラスを実装します。クラスはこれらをサブクラス化し、必要に応じてその機能を編集することができます。
 class LaserMonster implements Monster{
-    // multiplierの作成
     protected static int[] MULTIPLIERS = {100,20,30,5,1};
 
     protected String monsterName;
@@ -130,7 +124,6 @@ class LaserMonster implements Monster{
     protected int movementSpeed;
     protected Skill[] specialSkills;
 
-    // 全ての状態あるいはレベルを渡すことでモンスターの内部状態を作ります。
     public LaserMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
         this.hp = hp;
         this.attack = attack;
@@ -142,7 +135,6 @@ class LaserMonster implements Monster{
         this.setInitialSkills();
     }
 
-    // レベルに基づく汎用的なアルゴリズムです。ここで定義されているすべてのリテラルを移動して、最終クラスのメンバ定数として宣言するのが良いでしょう。
     public LaserMonster(int level){
         this.hp = level*LaserMonster.MULTIPLIERS[0];
         this.attack = level*LaserMonster.MULTIPLIERS[1];
@@ -154,13 +146,11 @@ class LaserMonster implements Monster{
         this.setInitialSkills();
     }
 
-    // 初期スキルを設定する関数です。このメソッドは、カスタムスキルを設定できるようにサブクラス化され上書きされる必要があります。
     protected void setInitialSkills(){
         Skill[] skills = {new Skill(this.attack,"Generic attack")};
         this.setSpecialSkills(skills);
     }
 
-    // メソッドを追加/削除することもできます。protectedになっているので、サブクラスだけがこの関数を使うことができます。
     protected void setSpecialSkills(Skill[] skills){
         this.specialSkills = skills;
     };
@@ -215,7 +205,6 @@ class LaserMonster implements Monster{
     }
 }
 
-// 全てのモンスターのための汎用クラス
 class LaserLowTierMonster extends LaserMonster implements LowTierMonster{
     public LaserLowTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
         super(hp, attack, defense, level, points, movementSpeed);
@@ -267,7 +256,6 @@ class LaserHighTierMonster extends LaserMidTierMonster implements HighTierMonste
         super(level);
     }
 
-    // 1から最後まで全てのスキルを返します。
     public Skill[] sideSkills(){
         return Arrays.copyOfRange(this.specialSkills, 1, this.specialSkills.length);
     };
@@ -377,7 +365,6 @@ class LaserFinalBossMonster extends LaserHighTierMonster implements FinalBossMon
         super(level);
     }
 
-    // ステージごとにattackが増加します。
     public String stageIncrement(){
         if(this.currentStage >= LaserFinalBossMonster.TOTAL_STAGES) return "NO MORE STAGES";
         this.currentStage++;
@@ -399,17 +386,6 @@ class LaserFinalBossMonster extends LaserHighTierMonster implements FinalBossMon
     }
 }
 
-class RandomWrapper{
-    public static int getRan(int min, int max){
-        return min + (int)(Math.random() * ((max - min) + 1));
-    }
-
-    public static boolean ranBoolean(){
-        return new Random().nextBoolean();
-    }
-}
-
-// 汎用モンスターのための汎用Factory
 class GenericLaserTagMonsterFactory implements LaserTagMonsterFactory{
     public LowTierMonster createLowTierMonster(){
         return new LaserLowTierMonster(RandomWrapper.getRan(1,20));
@@ -436,13 +412,127 @@ class GenericLaserTagMonsterFactory implements LaserTagMonsterFactory{
     };
 }
 
+//--------------------------------------
+// Antarcticaモンスターを定義し、LaserTagMonsterFactory Abstract Factoryを実装したAntarctica Factoryを作成してください。
+// また、メソッドを上書きしてください。（例. 各Antarcticaモンスターには異なる初期スキルがあります。）
+class AntarcticaLowTierMonster extends LaserLowTierMonster{
+    public AntarcticaLowTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public AntarcticaLowTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Antarctica Ice Low Tier Monster";
+    }
+}
+
+class AntarcticaMidTierMonster extends LaserMidTierMonster{
+
+    public AntarcticaMidTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public AntarcticaMidTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Antarctica Ice Mid Tier Monster";
+    }
+};
+
+class AntarcticaHighTierMonster extends LaserHighTierMonster{
+    public AntarcticaHighTierMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public AntarcticaHighTierMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Antarctica Ice High Tier Monster";
+    }
+};
+
+class AntarcticaFlyingMonster extends LaserFlyingMonster{
+    public AntarcticaFlyingMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed){
+        super(hp, attack, defense, level, points, movementSpeed, flyingSpeed);
+    }
+
+    public AntarcticaFlyingMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Antarctica Ice Flying Monster";
+    }
+};
+
+class AntarcticaHybridMonster extends LaserHybridMonster{
+    public AntarcticaHybridMonster(int hp, int attack, int defense, int level, int points, int movementSpeed, int flyingSpeed, int ascendSpeed, int descendSpeed){
+        super(hp, attack, defense, level, points, movementSpeed, flyingSpeed, ascendSpeed, descendSpeed);
+    }
+
+    public AntarcticaHybridMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Antarctica Ice Hybrid Monster";
+    }
+}
+
+class AntarcticaFinalBossMonster extends LaserFinalBossMonster{
+    public AntarcticaFinalBossMonster(int hp, int attack, int defense, int level, int points, int movementSpeed){
+        super(hp, attack, defense, level, points, movementSpeed);
+    }
+
+    public AntarcticaFinalBossMonster(int level){
+        super(level);
+    }
+
+    public String getMonsterName(){
+        return "Antarctica Ice Final Boss Monster";
+    }
+}
+
+// Antarctica abstract factoryの実装
+class AntarcticaLaserTagMonsterFactory implements LaserTagMonsterFactory {
+    public LowTierMonster createLowTierMonster(){
+        return new AntarcticaLowTierMonster(RandomWrapper.getRan(1,20));
+    };
+
+    public MidTierMonster createMidTierMonster(){
+        return new AntarcticaMidTierMonster(RandomWrapper.getRan(5,30));
+    };
+
+    public HighTierMonster createHighTierMonster(){
+        return new AntarcticaHighTierMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public FlyingMonster createFlyingMonster(){
+        return new AntarcticaFlyingMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public HybridMonster createHybridMonster(){
+        return new AntarcticaHybridMonster(RandomWrapper.getRan(15,50));
+    };
+
+    public FinalBossMonster createFinalBossMonster(){
+        return new AntarcticaFinalBossMonster(RandomWrapper.getRan(40,100));
+    };
+}
+//--------------------------------------
+
 class FairyWorld{
     public void playLaserTag(Person person, LaserTagMonsterFactory factory){
         String endl = System.lineSeparator();
         System.out.println(person + " will now play laser tag!" + endl);
 
-        // それぞれのモンスターを作成し、情報を出力します。
-        // スキルを選択するA.I.を使うことによって、人間がモンスターと戦う戦闘システムを構築することができます。
         LowTierMonster lowMon = factory.createLowTierMonster();
         System.out.println("Fighting " + lowMon + "....Defeated." + endl);
         MidTierMonster midMon  = factory.createMidTierMonster();
@@ -468,5 +558,6 @@ class Main{
         Person jessica = new Person("Jessica", "Roller", 30, 1.65, 95, "female");
 
         fairyWorld.playLaserTag(jessica, new GenericLaserTagMonsterFactory());
+        fairyWorld.playLaserTag(jessica, new AntarcticaLaserTagMonsterFactory());
     }
 }
